@@ -157,6 +157,11 @@ hr{
     body{
         padding:10px;
     }
+    .score-animate {
+    transition: all 0.3s ease;
+    transform: scale(1.3);
+    color: #ff3b3b;
+}
 }</style>
 </head>
 <body>
@@ -177,11 +182,11 @@ hr{
     <br><br>
     <!--Due Date-->
     <label>Due Date</label>
-   <input type="date">
+   <input type="date" id="deadLine">
    <br><br>
    <!--priority-->
     <label>Priority</label>
-    <select>
+      <select id="myPriority">
         <option>High</option>
         <option>Medium</option>
         <option>Low</option>
@@ -190,7 +195,8 @@ hr{
     <br><br>
     <!--category-->
     <label>Priority</label>
-    <select>
+      
+    <select id="selectCategory">
         <option>Study</option>
         <option>Travel</option>
         <option>Work</option>
@@ -206,9 +212,9 @@ hr{
 <!--Dash-Board Section-->
 <section>
     <h2>Dashboard</h2>
-    <p>Total Tasks:0</p>
-    <p>Completed Tasks:0</p>
-    <p>Pending Tasks:0</p>
+    <p>Total Tasks: <span id="totalCount">0</span></p>
+<p>Completed Tasks: <span id="completedCount">0</span></p>
+<p>Pending Tasks: <span id="pendingCount">0</span></p>
 </section>
 
 <hr>
@@ -231,7 +237,7 @@ hr{
 
         <h2>Completed Tasks</h2>
 
-        <ul>
+        <ul id="missionSuccessful">
             <!-- Completed tasks will appear here -->
         </ul>
 
@@ -250,15 +256,65 @@ hr{
 const missionInput = document.querySelector("#missionInput");
 const escalateTask = document.querySelector("#escalateTask");
 const pendingMissions = document.querySelector("#pendingMissions");
+const deadLine = document.querySelector("#deadLine");
+const myPriority = document.querySelector("#myPriority");
+const selectCategory = document.querySelector("#selectCategory");
+const missionSuccessful = document.querySelector("#missionSuccessful");
+const totalCount = document.querySelector("#totalCount");
+const completedCount = document.querySelector("#completedCount");
+const pendingCount = document.querySelector("#pendingCount");
+
+
 escalateTask.addEventListener("click",function(){
     const taskText = missionInput.value;
-    const lesGo = escalateTask.value;
-    const itsLeft = pendingMissions.value;           
+    
+
+   
+       
+               
     if (taskText ==="") {
     alert("Fuel the ride with a mission first.");
 
     return;
 }
+ const li = document.createElement("li");
+ 
+  
+ 
+ const dueDate = deadLine.value;
+const priority = myPriority.value;
+const category = selectCategory.value;
+
+
+const button = document.createElement("button");
+li.textContent = `${taskText}|${dueDate}|${priority}|${category}`;
+button.textContent = "Complete";
+li.appendChild(button);
+pendingMissions.appendChild(li);
+
+
+button.addEventListener("click", function(){
+    
+
+    missionSuccessful.appendChild(li);
+
+});
+let totalTasks = 0;
+let completedTasks = 0;
+let pendingTasks = 0;
+
+function updateBoard() {
+    totalCount.textContent = totalTasks;
+    completedCount.textContent = completedTasks;
+    pendingCount.textContent = pendingTasks;
+
+    animate(totalCount);
+    animate(completedCount);
+    animate(pendingCount);
+}
+});
+   
+
     </script>
 
 </body>
